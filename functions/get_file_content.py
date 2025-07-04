@@ -1,4 +1,4 @@
-from functions.files_validator import validate_file, inside_work_dir
+from functions.files_validator import is_valid_file, inside_work_dir
 from os import path
 
 MAX_CHARS = 10000
@@ -7,7 +7,8 @@ MAX_CHARS = 10000
 def get_file_content(working_directory, file_path):
     try:
         inside_work_dir(working_directory, file_path)
-        validate_file(working_directory, file_path)
+        if not is_valid_file(working_directory, file_path):
+            return f'Error: File not found or is not a regular file: "{file_path}"'
 
         working_directory = path.abspath(working_directory)
         full_path = path.abspath(path.join(working_directory, file_path))
