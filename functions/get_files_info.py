@@ -1,5 +1,6 @@
 from os import path
 import os
+from functions.files_validator import inside_work_dir
 
 
 def get_path_info(file_path):
@@ -14,6 +15,7 @@ def get_path_info(file_path):
 
 def get_files_info(working_directory, directory=None):
     try:
+        inside_work_dir(working_directory, directory)
         working_directory = path.abspath(working_directory)
         full_path = working_directory
         if directory:

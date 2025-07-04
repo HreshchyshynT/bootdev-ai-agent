@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from functions.get_files_info import get_files_info
 import os
 import sys
 import google.genai as genai
@@ -8,8 +7,6 @@ from google.genai import types
 
 def main():
     load_dotenv()
-    files_info = get_files_info("calculator/", ".")
-    print(f"files: \n{files_info}")
     if len(sys.argv) < 2:
         print("Prompt is not provided")
         sys.exit(1)
