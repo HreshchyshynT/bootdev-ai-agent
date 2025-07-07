@@ -1,9 +1,7 @@
 from functions.files_validator import is_valid_file, inside_work_dir
 from os import path
 from google.genai import types
-
-
-MAX_CHARS = 10000
+from config import MAX_CHARS
 
 
 def get_file_content(working_directory, file_path):
