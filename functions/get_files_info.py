@@ -28,7 +28,7 @@ def get_files_info(working_directory, directory=None):
         if not path.isdir(full_path):
             return f'Error: "{directory}" is not a directory'
 
-        if directory == ".":
+        if not directory or directory == ".":
             dir_name = "current"
         else:
             dir_name = f"'{directory}'"
