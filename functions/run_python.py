@@ -1,4 +1,5 @@
-from functions.files_validator import inside_work_dir, is_valid_file
+from functions.files_validator import is_valid_file
+from google.genai import types
 from os import path
 import subprocess
 
@@ -33,3 +34,18 @@ def run_python_file(working_directory, file_path):
 
     except Exception as e:
         return f"Error executing python file: {e}"
+
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Run python file using python3 interpreter, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The python file to run, relative to the working directory.",
+            ),
+        },
+    ),
+)
