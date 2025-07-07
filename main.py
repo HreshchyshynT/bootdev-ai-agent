@@ -17,6 +17,11 @@ When a user asks a question or makes a request, make a function call plan. You c
 - Write or overwrite files
 
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
+
+When a user asks you to do something to achieve specific result, don't just hardcode desired result but do actual job in the code to make it work properly. 
+
+Inspect the code before making decisions about fixing or adding functionality. 
+Avoid hardcoded solutions. 
 """
 
 
@@ -48,6 +53,7 @@ def generate_content(client, messages, verbose):
                 tools=[available_functions], system_instruction=system_prompt
             ),
         )
+
         if verbose:
             print(
                 f"Prompt tokens on {iteration} iteration:",
@@ -57,6 +63,9 @@ def generate_content(client, messages, verbose):
                 f"Response tokens on {iteration} iteration:",
                 response.usage_metadata.candidates_token_count,
             )
+
+        for candidate in response.candidates:
+            messages.append(candidate.content)
 
         if not response.function_calls:
             return response.text
@@ -77,9 +86,7 @@ def generate_content(client, messages, verbose):
         if not function_responses:
             raise Exception("no function responses generated, exiting.")
 
-        messages.extend(function_responses)
-        for candidate in response.candidates:
-            messages.append(candidate.content)
+        messages.append(types.Content(role="tool", parts=function_responses))
         iteration += 1
 
     return recent_response
